@@ -102,10 +102,18 @@ O código Terraform fornecido cria uma infraestrutura básica na AWS, composta p
    ```bash
    terraform init
 
-Planeje a Infraestrutura: terraform plan
-
-Aplique a Infraestrutura: terraform apply
-
-Acesse a Instância EC2: Use o IP público exibido no output ec2_public_ip. Acesse via SSH com a chave privada gerada: ssh -i chave_privada.pem admin@<ec2_public_ip>
+2. **Planeje a Infraestrutura**:
+   ```bash
+   terraform plan
+   
+3. **Aplique a Infraestrutura**:
+    ```bash
+   terraform apply
+    
+4. **Acesse a Instância EC2**: Use o IP público exibido no output ec2_public_ip.
+   
+5. **Acesse via SSH com a chave privada gerada**:
+    ```bash
+   ssh -i chave_privada.pem admin@<ec2_public_ip>
 
 Teste o Nginx: Abra o navegador e acesse http://<ec2_public_ip>. Você verá a mensagem "Hello from Terraform!".
