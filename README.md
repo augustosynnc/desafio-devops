@@ -86,8 +86,8 @@ O código Terraform fornecido cria uma infraestrutura básica na AWS, composta p
 - Configurado para a região `us-east-1`.
 
 #### Variáveis
-- `projeto`: Define o nome do projeto (padrão: "Desafio VExpenses").
-- `candidato`: Define o nome do candidato (padrão: "Augusto Cesar").
+- `projeto`: Define o nome do projeto (padrão: "VExpenses").
+- `candidato`: Define o nome do candidato (padrão: "SeuNome").
 - Essas variáveis são usadas para padronizar os nomes dos recursos.
 
 #### Key Pair
