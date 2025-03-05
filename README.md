@@ -3,15 +3,78 @@
 
 Antes de executar o código, certifique-se de que os seguintes requisitos estão atendidos:
 
-1. **Terraform instalado**:
-   - Siga as instruções de instalação no [site oficial do Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli).
+### 1. **Terraform instalado**
+O Terraform é a ferramenta usada para criar e gerenciar a infraestrutura como código. Para instalá-lo:
 
-2. **Credenciais da AWS configuradas**:
-   - Crie um usuário IAM na AWS com permissões para gerenciar recursos EC2, VPC e outros.
-   - Configure as credenciais da AWS usando o AWS CLI ou manualmente no arquivo `~/.aws/credentials`.
+1. **Acesse o Site Oficial**:
+   - Vá para o [site oficial do Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli).
 
-3. **Git instalado (opcional)**:
-   - Necessário apenas se você for clonar o repositório. Siga as instruções de instalação no [site oficial do Git](https://git-scm.com/).
+2. **Siga as Instruções de Instalação**:
+   - Escolha o sistema operacional que você está usando (Windows, Linux ou Mac).
+   - Siga os passos para baixar e instalar o Terraform.
+
+3. **Verifique a Instalação**:
+   - Abra o terminal ou prompt de comando e execute:
+     ```bash
+     terraform --version
+     ```
+   - Se a instalação estiver correta, você verá a versão do Terraform instalada.
+
+---
+
+### 2. **Credenciais da AWS configuradas**
+Para que o Terraform possa criar recursos na AWS, ele precisa de credenciais de acesso. Aqui está como configurá-las:
+
+#### **Opção 1: Usando o AWS CLI**
+
+1. **Instale o AWS CLI**:
+   - Siga as instruções de instalação no [site oficial da AWS](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html).
+
+2. **Configure as Credenciais**:
+   - Execute o comando abaixo e siga as instruções:
+     ```bash
+     aws configure
+     ```
+   - Insira suas credenciais (Access Key e Secret Key) quando solicitado.
+
+3. **Verifique a Configuração**:
+   - As credenciais serão salvas automaticamente no arquivo `~/.aws/credentials`.
+
+#### **Opção 2: Configuração Manual**
+
+1. **Crie um Arquivo de Credenciais**:
+   - No diretório `~/.aws/`, crie um arquivo chamado `credentials` (se não existir).
+   - Adicione o seguinte conteúdo:
+     ```
+     [default]
+     aws_access_key_id = SUA_ACCESS_KEY
+     aws_secret_access_key = SUA_SECRET_KEY
+     ```
+   - Substitua `SUA_ACCESS_KEY` e `SUA_SECRET_KEY` pelas suas credenciais da AWS.
+
+2. **Verifique as Permissões**:
+   - Certifique-se de que o usuário IAM associado às credenciais tem permissões para:
+     - Criar e gerenciar instâncias EC2.
+     - Criar e gerenciar VPCs, subnets, Security Groups, etc.
+
+---
+
+### 3. **Git instalado (opcional)**
+O Git é necessário apenas se você for clonar o repositório do GitHub. Para instalá-lo:
+
+1. **Acesse o Site Oficial**:
+   - Vá para o [site oficial do Git](https://git-scm.com/).
+
+2. **Siga as Instruções de Instalação**:
+   - Escolha o sistema operacional que você está usando (Windows, Linux ou Mac).
+   - Siga os passos para baixar e instalar o Git.
+
+3. **Verifique a Instalação**:
+   - Abra o terminal ou prompt de comando e execute:
+     ```bash
+     git --version
+     ```
+   - Se a instalação estiver correta, você verá a versão do Git instalada.
 
 ## Tarefa 1: Análise Técnica do Código Terraform
 
