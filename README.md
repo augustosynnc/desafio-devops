@@ -1,4 +1,17 @@
 # Desafio DevOps - VExpenses
+## Pré-requisitos
+
+Antes de executar o código, certifique-se de que os seguintes requisitos estão atendidos:
+
+1. **Terraform instalado**:
+   - Siga as instruções de instalação no [site oficial do Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli).
+
+2. **Credenciais da AWS configuradas**:
+   - Crie um usuário IAM na AWS com permissões para gerenciar recursos EC2, VPC e outros.
+   - Configure as credenciais da AWS usando o AWS CLI ou manualmente no arquivo `~/.aws/credentials`.
+
+3. **Git instalado (opcional)**:
+   - Necessário apenas se você for clonar o repositório. Siga as instruções de instalação no [site oficial do Git](https://git-scm.com/).
 
 ## Tarefa 1: Análise Técnica do Código Terraform
 
