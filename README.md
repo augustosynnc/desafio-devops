@@ -76,60 +76,75 @@ O Git é necessário apenas se você for clonar o repositório do GitHub. Para i
      ```
    - Se a instalação estiver correta, você verá a versão do Git instalada.
 
-## Tarefa 1: Análise Técnica do Código Terraform
+## Tarefa 1: Descrição Técnica do Código Terraform
 
-### Descrição Detalhada
+### Objetivo Geral
+Este projeto foi desenvolvido como parte de um desafio técnico para a área de **DevOps**, com o objetivo de **demonstrar conhecimentos em Infraestrutura como Código (IaC) utilizando Terraform**, além de **habilidades em segurança e automação de configuração de servidores**. A infraestrutura criada inclui uma VPC (Virtual Private Cloud), uma subnet pública, um Internet Gateway, um Security Group e uma instância EC2 com o servidor web Nginx instalado e configurado automaticamente. O código também gera um par de chaves SSH para acesso seguro à instância EC2.
 
-O código Terraform fornecido cria uma infraestrutura básica na AWS, composta pelos seguintes recursos:
+O uso do Terraform garante que a infraestrutura seja **replicável, versionável e de fácil manutenção**, seguindo as melhores práticas de IaC. Além disso, a implementação de medidas de segurança e a automação da configuração do servidor demonstram habilidades essenciais para um profissional de DevOps.
 
-#### Provider AWS
-- Configurado para a região `us-east-1`.
+### Recursos Criados e Suas Funções
 
-#### Variáveis
-- `projeto`: Define o nome do projeto (padrão: "VExpenses").
-- `candidato`: Define o nome do candidato (padrão: "SeuNome").
-- Essas variáveis são usadas para padronizar os nomes dos recursos.
+1. **Provider AWS**:
+   - Configura o provedor AWS para a região `us-east-1`, onde todos os recursos serão criados.
 
-#### Key Pair
-- `tls_private_key.ec2_key`: Gera uma chave privada RSA.
-- `aws_key_pair.ec2_key_pair`: Cria um par de chaves na AWS usando a chave pública gerada.
+2. **Variáveis**:
+   - `projeto`: Define o nome do projeto (padrão: "VExpenses").
+   - `candidato`: Define o nome do candidato (padrão: "SeuNome").
+   - `meu_ip`: Define o IP público do usuário para restringir o acesso SSH.
 
-#### VPC
-- `aws_vpc.main_vpc`: Cria uma VPC com o bloco CIDR `10.0.0.0/16`, habilitando suporte a DNS.
+3. **Key Pair**:
+   - **`tls_private_key.ec2_key`**: Gera uma chave privada RSA para acesso seguro à instância EC2.
+   - **`aws_key_pair.ec2_key_pair`**: Cria um par de chaves na AWS usando a chave pública gerada.
 
-#### Subnet
-- `aws_subnet.main_subnet`: Cria uma subnet com o bloco CIDR `10.0.1.0/24` na zona de disponibilidade `us-east-1a`.
+4. **VPC (Virtual Private Cloud)**:
+   - **`aws_vpc.main_vpc`**: Cria uma VPC com o bloco CIDR `10.0.0.0/16`, habilitando suporte a DNS e nomes de host. A VPC é o núcleo da infraestrutura, fornecendo uma rede isolada para os recursos.
 
-#### Internet Gateway
-- `aws_internet_gateway.main_igw`: Cria um Internet Gateway para permitir acesso à internet.
+5. **Subnet**:
+   - **`aws_subnet.main_subnet`**: Cria uma subnet pública com o bloco CIDR `10.0.1.0/24` na zona de disponibilidade `us-east-1a`. A subnet permite organizar os recursos dentro da VPC.
 
-#### Route Table e Association
-- `aws_route_table.main_route_table`: Cria uma tabela de rotas com uma rota padrão para a internet.
-- `aws_route_table_association.main_association`: Associa a subnet à tabela de rotas.
+6. **Internet Gateway**:
+   - **`aws_internet_gateway.main_igw`**: Cria um Internet Gateway e o associa à VPC, permitindo que os recursos na subnet pública acessem a internet.
 
-#### Security Group
-- `aws_security_group.main_sg`: Cria um Security Group que permite:
-  - Acesso SSH de qualquer lugar (`0.0.0.0/0` e `::/0`).
-  - Todo o tráfego de saída.
+7. **Route Table e Association**:
+   - **`aws_route_table.main_route_table`**: Cria uma tabela de rotas com uma rota padrão (`0.0.0.0/0`) apontando para o Internet Gateway.
+   - **`aws_route_table_association.main_association`**: Associa a subnet à tabela de rotas, garantindo que o tráfego da subnet seja roteado corretamente.
 
-#### AMI (Debian 12)
-- `data.aws_ami.debian12`: Busca a AMI mais recente do Debian 12.
+8. **Security Group**:
+   - **`aws_security_group.main_sg`**: Cria um Security Group que define as regras de tráfego de entrada e saída para a instância EC2. As regras incluem:
+     - Acesso SSH (porta 22) restrito ao IP especificado na variável `meu_ip`, seguindo as melhores práticas de segurança.
+     - Acesso HTTP (porta 80) e HTTPS (porta 443) a partir de qualquer lugar.
+     - Permissão de tráfego de saída para as portas 80 (HTTP) e 443 (HTTPS).
 
-#### Instância EC2
-- `aws_instance.debian_ec2`: Cria uma instância EC2 `t2.micro` usando a AMI do Debian 12.
-  - A instância recebe um IP público e tem um volume raiz de 20 GB (tipo `gp2`).
-  - O `user_data` executa um script básico para atualizar o sistema.
+9. **AMI (Amazon Machine Image)**:
+   - **`data.aws_ami.debian12`**: Busca a AMI mais recente do Debian 12, que será usada para criar a instância EC2.
 
-#### Outputs
-- `private_key`: Exibe a chave privada (marcada como sensível).
-- `ec2_public_ip`: Exibe o IP público da instância EC2.
+10. **Instância EC2**:
+    - **`aws_instance.debian_ec2`**: Cria uma instância EC2 `t2.micro` usando a AMI do Debian 12. A instância é configurada com:
+      - Um volume raiz de 20 GB do tipo `gp3`, escolhido por oferecer melhor desempenho e custo-benefício.
+      - Um IP público associado.
+      - Um script de `user_data` que instala e configura automaticamente o servidor web Nginx, além de criar uma página HTML simples. Essa automação garante que o servidor esteja pronto para uso imediatamente após a criação.
 
-### Observações
-- **Segurança**: O Security Group permite acesso SSH de qualquer lugar, o que é inseguro. Recomenda-se restringir o acesso a IPs específicos.
-- **Automação**: A instalação e configuração do Nginx não estão automatizadas. Isso pode ser feito usando o `user_data`.
-- **Volume Root**: O volume raiz é do tipo `gp2`, que é uma geração antiga. Recomenda-se utilizar `gp3` para melhor desempenho e custo-benefício.
+11. **Outputs**:
+    - **`private_key`**: Exibe a chave privada gerada para acesso SSH à instância EC2 (marcada como sensível).
+    - **`ec2_public_ip`**: Exibe o IP público da instância EC2, que pode ser usado para acessar o servidor web.
 
----
+### Funcionamento Geral
+Quando o código é executado com o comando `terraform apply`, ele segue uma sequência de passos para criar os recursos. Primeiro, o Terraform valida o código e gera um plano de execução. Em seguida, cria a VPC, a subnet, o Internet Gateway e a tabela de rotas. Por fim, provisiona a instância EC2 e configura o Nginx automaticamente usando o `user_data`.
+
+O uso do `user_data` garante que a instância EC2 esteja pronta para uso imediatamente após a criação, sem a necessidade de intervenção manual. Além disso, a restrição de acesso SSH ao IP especificado e a configuração do Security Group seguem as melhores práticas de segurança.
+
+### Habilidades Demonstradas
+Este projeto demonstra as seguintes habilidades essenciais para um profissional de DevOps:
+- **Infraestrutura como Código (IaC)**: Uso do Terraform para criar e gerenciar recursos na AWS de forma replicável e versionável.
+- **Segurança**: Implementação de medidas de segurança, como restrição de acesso SSH e configuração de regras de tráfego no Security Group.
+- **Automação**: Uso do `user_data` para automatizar a instalação e configuração do servidor web Nginx.
+
+### Possíveis Expansões
+No futuro, este projeto pode ser expandido para incluir:
+- Um balanceador de carga (ELB) para distribuir o tráfego entre múltiplas instâncias EC2.
+- A integração com um sistema de CI/CD para automatizar a implantação de aplicações.
+- A criação de um banco de dados RDS para armazenamento de dados.
 
 ## Tarefa 2: Modificações e Melhorias do Código Terraform
 
