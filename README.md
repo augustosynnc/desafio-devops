@@ -176,27 +176,24 @@ No futuro, este projeto pode ser expandido para incluir:
 
 - ### Passos para Executar
  1 **Clone o Repositório**:
-    ```bash
-   git clone https://github.com/augustosynnc/desafio-devops.git
-   cd desafio-devops
+    https://github.com/augustosynnc/desafio-devops.git
+
 
 2  **Inicialize o Terraform**:
-    ```bash
+
    terraform init    
    
 3  **Planeje a Infraestrutura**:
-    ```bash
-    terraform plan
+
+   terraform plan
 
  4  **Aplique a Infraestrutura**: 
-     ```bash
-     terraform apply
+     
+   terraform apply
 
  5  **Acesse a Instância EC2**:
      Use o IP público exibido no output ec2_public_ip.
-     Acesse via SSH com a chave privada gerada:
-     ```bash
-     ssh -i chave_privada.pem admin@<ec2_public_ip>
+     Acesse via SSH com a chave privada gerada: ssh -i chave_privada.pem admin@<ec2_public_ip>
 
  6  **Teste o Nginx**:
     Abra o navegador e acesse http://<ec2_public_ip>. Você verá a mensagem "Hello from Terraform!".
