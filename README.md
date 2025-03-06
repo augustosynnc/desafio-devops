@@ -155,61 +155,49 @@ No futuro, este projeto pode ser expandido para incluir:
 
 ### Melhorias Implementadas
 
-1. **Restrição de Acesso SSH**:
-   - O acesso SSH foi restrito ao IP especificado na variável `meu_ip`.
-   - **Justificativa**: Aumenta a segurança ao permitir acesso apenas a IPs confiáveis.
+#### 1. Restrição de Acesso SSH
+- **O que foi feito**: O acesso SSH foi restrito ao IP especificado na variável `meu_ip`.
+- **Resultados Esperados**: A instância EC2 só permite acesso SSH a partir do IP especificado, aumentando a segurança.
+- **Impacto em Produção**: Em ambientes de produção, a restrição de acesso SSH é essencial para evitar violações de segurança e acessos não autorizados.
 
-2. **Automação da Instalação do Nginx**:
-   - O `user_data` foi modificado para instalar e configurar o Nginx automaticamente.
-   - **Justificativa**: Automatiza a configuração do servidor, reduzindo erros manuais.
+#### 2. Automação da Instalação do Nginx
+- **O que foi feito**: O `user_data` foi utilizado para instalar e configurar o Nginx automaticamente.
+- **Resultados Esperados**: O servidor web está pronto para uso imediatamente após a criação da instância.
+- **Processo de Automação**: O `user_data` executa um script durante a inicialização da instância, garantindo que o Nginx seja instalado e configurado sem intervenção manual. Isso é especialmente útil em ambientes escaláveis, onde a consistência da configuração é crítica.
 
-3. **Uso do Volume Root `gp3`**:
-   - O volume raiz foi atualizado para `gp3`.
-   - **Justificativa**: Oferece melhor desempenho e custo-benefício.
+#### 3. Uso do Volume Root `gp3`
+- **O que foi feito**: O volume raiz foi atualizado para `gp3`.
+- **Resultados Esperados**: Melhor desempenho e custo-benefício em comparação com o `gp2`.
+- **Vantagens do `gp3`**: O `gp3` permite ajustes independentes de IOPS e throughput, oferecendo maior flexibilidade e desempenho em comparação com o `gp2`. Isso é ideal para cargas de trabalho que exigem alta performance.
 
-4. **Restrição de Tráfego de Saída**:
-   - O tráfego de saída foi limitado às portas 80 (HTTP) e 443 (HTTPS).
-   - **Justificativa**: Aumenta a segurança ao evitar comunicação com serviços não autorizados.
+#### 4. Restrição de Tráfego de Saída
+- **O que foi feito**: O tráfego de saída foi limitado às portas 80 (HTTP) e 443 (HTTPS).
+- **Resultados Esperados**: Aumento da segurança ao evitar comunicação com serviços não autorizados.
+- **Impacto em Produção**: Em ambientes de produção, a restrição de tráfego de saída é crucial para evitar vazamento de dados e ataques externos.
 
-5. **Adição de Tags**:
-   - Tags consistentes foram adicionadas a todos os recursos.
-   - **Justificativa**: Facilita a organização e identificação dos recursos.
+#### 5. Adição de Tags
+- **O que foi feito**: Tags consistentes foram adicionadas a todos os recursos.
+- **Resultados Esperados**: Facilita a identificação e o gerenciamento dos recursos.
+- **Benefícios**: As tags ajudam a organizar recursos em ambientes complexos, permitindo a filtragem e a auditoria de custos e uso.
 
-6. **Bloqueio de Destruição**:
-   - O recurso `lifecycle` foi adicionado para evitar a exclusão acidental da instância EC2.
-   - **Justificativa**: Protege recursos críticos contra exclusões acidentais.
+#### 6. Bloqueio de Destruição
+- **O que foi feito**: O recurso `lifecycle` foi adicionado para evitar exclusões acidentais.
+- **Resultados Esperados**: Protege a instância EC2 contra exclusões acidentais.
+- **Importância**: Em ambientes críticos, o bloqueio de destruição evita perda de dados e interrupções não planejadas.
 
 ### Outras Melhorias
-- **Geração Dinâmica de Chave SSH**:
-  - A chave SSH é gerada automaticamente usando o recurso `tls_private_key`.
-  - **Justificativa**: Elimina a necessidade de gerenciar manualmente as chaves SSH.
+1. **Geração Dinâmica de Chave SSH**:
+   - A chave SSH é gerada automaticamente, eliminando a necessidade de gerenciamento manual.
+   - **Benefícios**: Simplifica o processo de provisionamento e garante que cada instância tenha uma chave única.
 
----
+2. **Separação dos Outputs**:
+   - Os outputs foram movidos para um arquivo separado (`outputs.tf`), melhorando a organização do código.
+   - **Exemplos de Uso**:
+     - O output `ec2_public_ip` pode ser usado para acessar o servidor web diretamente no navegador.
+     - A `private_key` é essencial para acessar a instância EC2 via SSH.
 
-## Instruções de Uso
-
-### Pré-requisitos
-- **Terraform instalado**.
-- **Credenciais da AWS configuradas**.
-
-### Passos para Executar
-
-1. **Inicialize o Terraform**:
-   ```bash
-   terraform init
-
-2. **Planeje a Infraestrutura**:
-   ```bash
-   terraform plan
-   
-3. **Aplique a Infraestrutura**:
-    ```bash
-   terraform apply
-    
-4. **Acesse a Instância EC2**: Use o IP público exibido no output ec2_public_ip.
-   
-5. **Acesse via SSH com a chave privada gerada**:
-    ```bash
-   ssh -i chave_privada.pem admin@<ec2_public_ip>
-
-Teste o Nginx: Abra o navegador e acesse http://<ec2_public_ip>. Você verá a mensagem "Hello from Terraform!".
+### Resultados Esperados das Melhorias
+- **Segurança**: Ambiente mais seguro com restrição de acesso SSH e tráfego de saída.
+- **Automação**: Instalação e configuração do Nginx totalmente automatizadas.
+- **Eficiência**: Uso do volume `gp3` e geração dinâmica de chaves SSH aumentam a eficiência.
+- **Organização**: Tags e separação dos outputs melhoram a organização e a manutenção do código.
