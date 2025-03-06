@@ -59,23 +59,6 @@ Para que o Terraform possa criar recursos na AWS, ele precisa de credenciais de 
 
 ---
 
-### 3. **Git instalado (opcional)**
-O Git é necessário apenas se você for clonar o repositório do GitHub. Para instalá-lo:
-
-1. **Acesse o Site Oficial**:
-   - Vá para o [site oficial do Git](https://git-scm.com/).
-
-2. **Siga as Instruções de Instalação**:
-   - Escolha o sistema operacional que você está usando (Windows, Linux ou Mac).
-   - Siga os passos para baixar e instalar o Git.
-
-3. **Verifique a Instalação**:
-   - Abra o terminal ou prompt de comando e execute:
-     ```bash
-     git --version
-     ```
-   - Se a instalação estiver correta, você verá a versão do Git instalada.
-
 ## Tarefa 1: Descrição Técnica do Código Terraform
 
 ### Objetivo Geral
