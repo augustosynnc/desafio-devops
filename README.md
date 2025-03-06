@@ -129,6 +129,11 @@ O uso do Terraform garante que a infraestrutura seja **replicável, versionável
     - **`private_key`**: Exibe a chave privada gerada para acesso SSH à instância EC2 (marcada como sensível).
     - **`ec2_public_ip`**: Exibe o IP público da instância EC2, que pode ser usado para acessar o servidor web.
 
+### Observações
+- **Segurança**: Originalmente, o Security Group permitia acesso SSH de qualquer lugar (`0.0.0.0/0`), o que é inseguro. Para corrigir isso, o acesso SSH foi restrito ao IP especificado na variável `meu_ip`.
+- **Automação**: Inicialmente, a instalação e configuração do Nginx não estavam automatizadas. Para resolver isso, o `user_data` foi utilizado para instalar e configurar o Nginx automaticamente após a criação da instância EC2.
+- **Volume Root**: O volume raiz original era do tipo `gp2`, que é uma geração antiga. Para melhorar o desempenho e o custo-benefício, o volume foi atualizado para `gp3`.
+
 ### Funcionamento Geral
 Quando o código é executado com o comando `terraform apply`, ele segue uma sequência de passos para criar os recursos. Primeiro, o Terraform valida o código e gera um plano de execução. Em seguida, cria a VPC, a subnet, o Internet Gateway e a tabela de rotas. Por fim, provisiona a instância EC2 e configura o Nginx automaticamente usando o `user_data`.
 
