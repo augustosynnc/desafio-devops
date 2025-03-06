@@ -168,6 +168,40 @@ No futuro, este projeto pode ser expandido para incluir:
 - **Resultados Esperados**: Protege a instância EC2 contra exclusões acidentais.
 - **Importância**: Em ambientes críticos, o bloqueio de destruição evita perda de dados e interrupções não planejadas.
 
+## Instruções de Uso
+
+### Pré-requisitos
+- **Terraform instalado**.
+- **Credenciais da AWS configuradas**.
+
+- ### Passos para Executar
+ 1 **Clone o Repositório**:
+    ```bash
+   git clone https://github.com/augustosynnc/desafio-devops.git
+   cd desafio-devops
+
+2  **Inicialize o Terraform**:
+    ```bash
+   terraform init    
+   
+3  **Planeje a Infraestrutura**:
+    ```bash
+    terraform plan
+
+ 4  **Aplique a Infraestrutura**: 
+     ```bash
+     terraform apply
+
+ 5  **Acesse a Instância EC2**:
+     Use o IP público exibido no output ec2_public_ip.
+     Acesse via SSH com a chave privada gerada:
+     ```bash
+     ssh -i chave_privada.pem admin@<ec2_public_ip>
+
+ 6  **Teste o Nginx**:
+    Abra o navegador e acesse http://<ec2_public_ip>. Você verá a mensagem "Hello from Terraform!".
+     
+
 ### Outras Melhorias
 1. **Geração Dinâmica de Chave SSH**:
    - A chave SSH é gerada automaticamente, eliminando a necessidade de gerenciamento manual.
