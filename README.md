@@ -192,11 +192,13 @@ No futuro, este projeto pode ser expandido para incluir:
    terraform apply
 
  5  **Acesse a Instância EC2**:
-     Use o IP público exibido no output ec2_public_ip.
-     Acesse via SSH com a chave privada gerada: ssh -i chave_privada.pem admin@<ec2_public_ip>
+    Use o IP público exibido no output ec2_public_ip.
+     
+   Acesse via SSH com a chave privada gerada: ssh -i chave_privada.pem admin@<ec2_public_ip>
 
  6  **Teste o Nginx**:
-    Abra o navegador e acesse http://<ec2_public_ip>. Você verá a mensagem "Hello from Terraform!".
+    
+   Abra o navegador e acesse http://<ec2_public_ip>. Você verá a mensagem "Hello from Terraform!".
      
 
 ### Outras Melhorias
